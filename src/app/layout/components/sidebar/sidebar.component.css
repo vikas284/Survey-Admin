@@ -1,0 +1,107 @@
+#sidebar-wrapper {
+    height: 100%;
+    padding: 0;
+    position: fixed;
+    border-right: 1px solid gray;
+    background: #000;
+    color: #FFF;
+    margin: 0;
+    width: 90px;
+    text-align: center;
+    z-index: 1000;
+}
+
+#sidebar-wrapper .top-logo {
+    background: #FFF;
+    padding: 8px;
+}
+
+#sidebar {
+    position: relative;
+    height: 100%;
+    overflow: auto;
+    padding-top: 35px;
+}
+
+#sidebar ul {}
+
+#sidebar ul li {
+    margin-bottom: 15px;
+}
+
+#sidebar ul li.sub {}
+
+#sidebar ul li a {
+    color: #FFF;
+    font-size: 12px;
+    text-decoration: none;
+    opacity: 0.6;
+}
+
+#sidebar ul li a span {
+    display: block;
+    opacity: 0.6;
+}
+
+#sidebar ul li a:hover,
+#sidebar ul li a:hover span {
+    opacity: 1;
+}
+
+#sidebar ul li a.active,
+#sidebar ul li a.active span {
+    opacity: 1;
+}
+
+#sidebar .list-group-item {
+    border-radius: 0;
+    border-left: 0;
+    border-right: 0;
+    border-top: 0;
+}
+
+.icon-sidebar {
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    background-size: 100%;
+}
+
+.icon-sidebar.dashboard {
+    background: url(/assets/icon/dashboard.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+.icon-sidebar.member {
+    background: url(/assets/icon/member.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+.icon-sidebar.patient {
+    background: url(/assets/icon/patient.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+.icon-sidebar.doctor {
+    background: url(/assets/icon/doctor.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+.icon-sidebar.setting {
+    background: url(/assets/icon/settings.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+.icon-sidebar.report {
+    background: url(/assets/icon/report.png) no-repeat 0 0;
+    background-size: 100%;
+}
+
+@media (max-width: 992px) {
+    #sidebar-wrapper {
+        position: static;
+        height: auto;
+        max-height: 300px;
+        border-right: 0;
+    }
+}

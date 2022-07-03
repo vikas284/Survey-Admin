@@ -1,0 +1,50 @@
+.action-menu {
+    margin-top: 10px;
+}
+
+.pagination-row {
+    display: contents;
+}
+
+.pagination-count {
+    font-weight: 600;
+}
+
+.example-wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+.example-header {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 13px;
+}
+
+.fa {
+    color: #394047;
+}
+
+label {
+    font-size: 15px;
+}
+
+pre {
+    border: 1px solid #007bff;
+    padding: 5px;
+    white-space: pre-line;
+}
+
+.input-text {
+    font-size: 17px;
+    font-weight: 500;
+    margin: -5px 0px 10px 0px;
+}
+
+.mt-20 {
+    margin-top: 20px;
+}
+
+.mb-20 {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,241 @@
+<div class="row list-container">
+
+    <div class="col-9 mt-20">
+        <button type="button" data-toggle="modal" data-target="#addEditSurvey" id="addButton" class="btn btn-info"
+            (click)="initAddForm()">Add</button>
+    </div>
+    <div class="col-12 mt-20">
+        <ag-grid-angular #agGrid style="height: calc(100vh - 220px);" class="ag-theme-alpine" [rowData]="rowData"
+            [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </div>
+    <div class="pagination-row">
+        <div class="col-9" style="margin-top: 10px;">
+            <div class="example-wrapper">
+                <div class="example-header">
+                    Page Size:
+                    <select (change)="currentPage=1;reloadData()" [(ngModel)]="pageSize" id="page-size">
+                        <option value=10 selected>10</option>
+                        <option value=25>25</option>
+                        <option value=50>50</option>
+                        <option value=100>100</option>
+                        <option value=500>500</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3" style="margin-top: 10px;text-align: end;">
+            <span>
+                <span class="pagination-count"> {{initialRowNumber}} </span>
+                <span>to </span>
+                <span class="pagination-count">{{endRowNumber}} </span>
+                <span>of </span>
+                <span class="pagination-count"> {{totalCount}}</span>
+            </span>
+            <span style="margin-left: 15px;">
+                <a class="btn" (click)="currentPage=1;reloadData()" [class.disabled]="currentPage==1">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                </a>
+                <a class="btn" (click)="currentPage=currentPage-1;reloadData()" [class.disabled]="currentPage==1">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </a>
+                <span>
+                    <span> Page </span>
+                    <span class="pagination-count">{{currentPage}}</span>
+                    <span> of </span>
+                    <span class="pagination-count">{{totalPage}}</span>
+                </span>
+                <a class="btn" (click)="currentPage=currentPage+1;reloadData()"
+                    [class.disabled]="currentPage===totalPage">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <a class="btn" (click)="currentPage=totalPage;reloadData()" [class.disabled]="currentPage===totalPage">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+<!-- View Question Modal -->
+<button type="button" data-toggle="modal" data-target="#questionsDetail" id="svviewModal"
+    style="display: none;"></button>
+<button type="button" data-toggle="modal" data-target="#addEditSurvey" id="editButton" class="btn btn-info"
+    style="display: none;"></button>
+<button type="button" data-toggle="modal" data-target="#assignSurvey" id="assignButton" class="btn btn-info"
+    style="display: none;"></button>
+<div class="modal fade" id="questionsDetail" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Questions Detail</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="questionsData">
+                <ol>
+                    <li *ngFor="let question of questionsData;let index = index;trackBy:trackByIndex;">
+                        <div class="question">
+                            {{question.question}}
+                        </div>
+                        <div *ngIf="question.type=='radio'">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+                                <div *ngFor="let option of question.options" class="options">
+                                    <mat-radio-button class="example-radio-button" [value]="option">
+                                        {{option}}
+                                    </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+
+                        </div>
+                        <div *ngIf="question.type=='checkbox'">
+                            <div *ngFor="let option of question.options" class="options">
+                                <mat-checkbox [value]="option">{{option}}</mat-checkbox>
+                            </div>
+                        </div>
+                        <div *ngIf="question.type=='text'">
+                            <div>
+                                <mat-form-field style="width:100%;">
+                                    <textarea matInput placeholder="Please Enter Your Response....."></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="addEditSurvey" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Add/Edit Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div *ngIf="form">
+                    <form id="addSurveyForm" [formGroup]="form" action="#" style="width:100%">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <mat-form-field style="width:100%;">
+                                    <input matInput placeholder="Enter Survey Name" formControlName="name" required>
+                                    <mat-error
+                                        *ngIf="form.controls['name'].errors && form.controls['name'].errors.required">
+                                        Survey Name is required
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field style="width:100%;">
+                                    <input matInput name="description" placeholder="Enter Survey Description"
+                                        formControlName="description">
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-11">
+                                <mat-label id="user" name="user">
+                                    Add
+                                </mat-label>
+                            </div>
+                            <div class="col-md-1">
+                                <mat-icon class="addIcon" matTooltip="Add Question" (click)="addQuestion()">
+                                    add_box
+                                </mat-icon>
+                            </div>
+                        </div>
+                        <div formArrayName="questions">
+                            <div *ngFor="let ques of questions.controls; let i = index" [formGroupName]="i">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <mat-form-field style="width:100%">
+                                            <input matInput placeholder="Question" formControlName="question" required>
+                                            <mat-error
+                                                *ngIf="ques.controls['question'].errors && ques.controls['question'].errors.required">
+                                                Question is required
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <mat-radio-group aria-label="Select Question Type" formControlName="type">
+                                            <mat-radio-button [value]="'radio'">Single Select</mat-radio-button>
+                                            <mat-radio-button [value]="'checkbox'">Multi Select</mat-radio-button>
+                                            <mat-radio-button [value]="'text'">Text</mat-radio-button>
+                                        </mat-radio-group>
+                                    </div>
+                                    <div class="col-md-12" *ngIf="ques.type!='text'">
+                                        <mat-form-field style="width:100%">
+                                            <mat-chip-list #chipList formArrayName="options">
+                                                <mat-chip *ngFor="let option of getOptions(ques).value;let j=index"
+                                                    (removed)="removeOption(i,j)">
+                                                    {{option}}
+                                                    <mat-icon matChipRemove>cancel</mat-icon>
+                                                </mat-chip>
+                                                <input placeholder="New Option..." [matChipInputFor]="chipList"
+                                                    [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                                    (matChipInputTokenEnd)="addOption(i,$event)">
+                                            </mat-chip-list>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-11">
+                                        <mat-label id="user" name="user">
+                                            Remove
+                                        </mat-label>
+                                    </div>
+                                    <div class="col-md-1">
+                                        <mat-icon class="removeIcon" matTooltip="Remove Question"
+                                            (click)="removeQuestion(i)">
+                                            indeterminate_check_box
+                                        </mat-icon>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal" *ngIf="formType=='add'"
+                    (click)="addSurvey()">Save</button>
+                <button type="button" class="btn btn-info" data-dismiss="modal" *ngIf="formType=='edit'"
+                    (click)="updateSurvey()">Update</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="assignSurvey" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Assigne Survey</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="surveyDetail">
+                <mat-form-field style="width:100%">
+                    <mat-chip-list #chipList>
+                        <mat-chip *ngFor="let au of surveyDetail.assigne;let j=index">
+                            {{au}}
+                            <mat-icon matChipRemove>cancel</mat-icon>
+                        </mat-chip>
+                        <input placeholder="New User..." [matChipInputFor]="chipList"
+                            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                            (matChipInputTokenEnd)="assignSurvey($event)">
+                    </mat-chip-list>
+                </mat-form-field>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" id="closeAssignSurvey">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

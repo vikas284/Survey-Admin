@@ -1,0 +1,15 @@
+﻿<div *ngIf="message" class="alert-message alert-ok" [ngClass]="{ 'alert-message': message, 'alert-ok': message.type === 'success', 'alert-failure': message.type === 'error', 'alert-warning': message.type === 'warning', 'alert-information': message.type === 'information'}">
+	<div class="row">
+		<div class="col-md-1">
+			<i aria-hidden="true" [ngClass]="{ 'fa': message, 'fa-thumbs-up': message.type === 'success', 'fa-exclamation-circle': message.type === 'error', 'fa-exclamation-triangle': message.type === 'warning', 'fa-info-circle': message.type === 'information'}"></i>		
+		</div>
+		<div class="col-md-10">
+			<h5>
+				<span *ngIf= "message.type === 'success'">Success.</span>
+				<span *ngIf= "message.type === 'error'">Error.</span>
+			</h5>
+			<p>{{message.text}} </p>
+		</div>
+	</div>
+
+</div>

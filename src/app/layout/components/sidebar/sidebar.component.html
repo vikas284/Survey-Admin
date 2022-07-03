@@ -1,0 +1,27 @@
+<div id="sidebar-wrapper">
+    <div class="top-logo">
+        <img src="assets/logo-small.jpg" style="width: 75px;height: 40px;" />
+    </div>
+    <div id="sidebar">
+        <ul class="nav list-group">
+            <li class="sub">
+                <a [routerLink]="['/admin/user']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-user fa-2x" aria-hidden="true"></i>
+                    <span>User</span>
+                </a>
+            </li>
+           <li class="sub">
+                <a [routerLink]="['/admin/survey']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-comments fa-2x" aria-hidden="true"></i>
+                    <span>Survey</span>
+                </a>
+            </li>
+            <li class="sub">
+                <a [routerLink]="['/admin/feedback']" [routerLinkActive]="['active']" [routerLinkActiveOptions]="{ exact: true }">
+                    <i class="fa fa-list fa-2x" aria-hidden="true"></i>
+                    <span>Feedback</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>

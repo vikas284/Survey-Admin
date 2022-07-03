@@ -1,0 +1,17 @@
+.top-nav{
+    background: #FFF;
+    z-index: 1;
+    border-bottom: 1px solid #ccc;
+    padding-left: 120px;
+}
+.top-dropdown{
+	border:none;
+	width: auto;
+}
+.navbar-brand{
+	color: #000;
+	pointer-events: none;
+}
+.top-dropdown{
+	min-width: 100px;
+}

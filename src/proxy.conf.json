@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+        "target": "http://3.8.164.217/api",
+        "secure": false,
+        "logLevel": "debug"
+    }
+}

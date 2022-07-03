@@ -1,0 +1,101 @@
+<div class="row list-container">
+    <div class="col-12 mt-20">
+        <ag-grid-angular #agGrid style="height: calc(100vh - 220px);" class="ag-theme-alpine" [rowData]="rowData"
+            [columnDefs]="columnDefs" [frameworkComponents]="frameworkComponents">
+        </ag-grid-angular>
+    </div>
+    <div class="pagination-row">
+        <div class="col-9" style="margin-top: 10px;">
+            <div class="example-wrapper">
+                <div class="example-header">
+                    Page Size:
+                    <select (change)="currentPage=1;reloadData()" [(ngModel)]="pageSize" id="page-size">
+                        <option value=10 selected>10</option>
+                        <option value=25>25</option>
+                        <option value=50>50</option>
+                        <option value=100>100</option>
+                        <option value=500>500</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="col-3" style="margin-top: 10px;text-align: end;">
+            <span>
+                <span class="pagination-count"> {{initialRowNumber}} </span>
+                <span>to </span>
+                <span class="pagination-count">{{endRowNumber}} </span>
+                <span>of </span>
+                <span class="pagination-count"> {{totalCount}}</span>
+            </span>
+            <span style="margin-left: 15px;">
+                <a class="btn" (click)="currentPage=1;reloadData()" [class.disabled]="currentPage==1">
+                    <i class="fa fa-angle-double-left" aria-hidden="true"></i>
+                </a>
+                <a class="btn" (click)="currentPage=currentPage-1;reloadData()" [class.disabled]="currentPage==1">
+                    <i class="fa fa-angle-left" aria-hidden="true"></i>
+                </a>
+                <span>
+                    <span> Page </span>
+                    <span class="pagination-count">{{currentPage}}</span>
+                    <span> of </span>
+                    <span class="pagination-count">{{totalPage}}</span>
+                </span>
+                <a class="btn" (click)="currentPage=currentPage+1;reloadData()"
+                    [class.disabled]="currentPage===totalPage">
+                    <i class="fa fa-angle-right" aria-hidden="true"></i>
+                </a>
+                <a class="btn" (click)="currentPage=totalPage;reloadData()" [class.disabled]="currentPage===totalPage">
+                    <i class="fa fa-angle-double-right" aria-hidden="true"></i>
+                </a>
+            </span>
+        </div>
+    </div>
+</div>
+<!-- View Question Modal -->
+<button type="button" data-toggle="modal" data-target="#viewFeedback" id="viewFeedbackModal"
+    style="display: none;"></button>
+<div class="modal fade" id="viewFeedback" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">Feedback
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" *ngIf="surveyDetail">
+                <ol>
+                    <li *ngFor="let question of surveyDetail.questions;let index = index;trackBy:trackByIndex;">
+                        <div class="question">
+                            {{question.question}}
+                        </div>
+                        <div *ngIf="question.type=='radio'">
+                            <mat-radio-group aria-labelledby="example-radio-group-label" class="example-radio-group">
+                                <div *ngFor="let option of question.options" class="options">
+                                    <mat-radio-button class="example-radio-button" [checked]="option==question.answer" [value]="option">
+                                        {{option}}
+                                    </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+
+                        </div>
+                        <div *ngIf="question.type=='checkbox'">
+                            <div *ngFor="let option of question.options" class="options">
+                                <mat-checkbox [value]="option" [checked]="question.answer.indexOf(option)>-1">{{option}}</mat-checkbox>
+                            </div>
+                        </div>
+                        <div *ngIf="question.type=='text'">
+                            <div>
+                                <mat-form-field style="width:100%;">
+                                    <textarea matInput placeholder="Please Enter Your Response....." [value]="question.answer" readonly></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </li>
+                </ol>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
