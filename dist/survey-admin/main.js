@@ -388,11 +388,7 @@ class SharedService {
         }
     }
     getApiEndPoint() {
-        let hostname = window.location.hostname;
-        let env = hostname.split('-');
-        if (hostname == 'localhost' || env[0] == 'dev') {
-            return 'http://localhost:3000';
-        }
+        return 'http://13.41.83.79/api-survey';
     }
     httpOptions() {
         let currentUser = this.getCurrentUser();
