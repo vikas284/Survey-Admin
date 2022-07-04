@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:dev": "sudo docker build . -t survey-admin",
+    "deploy:dev": "sudo docker run -d --name suvey-admin -p 3100:80 survey-admin"
   },
   "private": true,
   "dependencies": {
